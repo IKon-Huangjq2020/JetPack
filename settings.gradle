@@ -1,2 +1,3 @@
+include ':viewbinding'
 include ':Room'
 rootProject.name = "JetPack"

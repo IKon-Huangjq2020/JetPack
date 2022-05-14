@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Viewbinding</string>
+
+
+    <string name="user_age">年龄：%1$d岁</string>
+    <string name="number_symbol">*</string>
+
+    <plurals name="orange">
+        <item quantity="one"> Have an orange</item>
+        <item quantity="other"> Have %d orange</item>
+    </plurals>
+</resources>
