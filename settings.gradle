@@ -1,3 +1,6 @@
+include ':pagingdbnet'
+include ':pagingnet'
+include ':pagingdb'
 include ':viewbinding'
 include ':Room'
 rootProject.name = "JetPack"

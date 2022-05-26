@@ -12,6 +12,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/pagingdb" />
+            <option value="$PROJECT_DIR$/pagingdbnet" />
+            <option value="$PROJECT_DIR$/pagingnet" />
             <option value="$PROJECT_DIR$/room" />
             <option value="$PROJECT_DIR$/viewbinding" />
           </set>

@@ -15,11 +15,6 @@ interface UserDao {
     @Transaction
     fun insertUsers(users: List<User>)
 
-    @Delete
-    fun deleteUser(user: User)
-
-    @Update
-    fun updateUser(user: User)
 
     @Query("SELECT * FROM user ORDER BY id COLLATE NOCASE ASC")
     fun allUserById(): PagingSource<Int, User>
