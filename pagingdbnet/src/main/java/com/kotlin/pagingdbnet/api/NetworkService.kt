@@ -21,6 +21,6 @@ object NetworkService {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val rankAppListApi = retrofit.create<RankAppListApi>()
+    val appListApi = retrofit.create<AppListApi>()
 
 }

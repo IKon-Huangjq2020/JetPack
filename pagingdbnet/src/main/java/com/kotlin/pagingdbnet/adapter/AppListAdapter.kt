@@ -1,5 +1,6 @@
 package com.kotlin.pagingdbnet.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -16,7 +17,7 @@ import com.kotlin.pagingdbnet.model.AppData
  *    desc   :
  *    date   : 2022/5/24 21:53
  */
-class RankAppAdapter : PagingDataAdapter<AppData, RankAppAdapter.AppViewHolder>(
+class AppListAdapter(val context: Context) : PagingDataAdapter<AppData, AppListAdapter.AppViewHolder>(
     object : DiffUtil.ItemCallback<AppData>() {
         override fun areItemsTheSame(oldItem: AppData, newItem: AppData): Boolean {
             return oldItem.apkid == newItem.apkid
@@ -49,7 +50,7 @@ class RankAppAdapter : PagingDataAdapter<AppData, RankAppAdapter.AppViewHolder>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppViewHolder {
-        val binding = AppListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = AppListItemBinding.inflate(LayoutInflater.from(context), parent, false)
         return AppViewHolder(binding)
     }
 

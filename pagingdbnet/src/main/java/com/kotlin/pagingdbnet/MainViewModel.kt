@@ -23,7 +23,7 @@ class MainViewModel : ViewModel() {
             ),
             remoteMediator = AppListRemoteMediator(
                 AppListDataBase.getDB(),
-                NetworkService.rankAppListApi
+                NetworkService.appListApi
             )
         ) {
             AppListDataBase.getDB().getAppListDao().pagingSource()

@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.LogUtils
 import com.kotlin.pagingdbnet.databinding.ActivityMainBinding
-import com.kotlin.pagingdbnet.adapter.RankAppAdapter
+import com.kotlin.pagingdbnet.adapter.AppListAdapter
+import com.kotlin.pagingdbnet.adapter.FooterAdapter
 import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : AppCompatActivity() {
@@ -22,17 +24,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
 
-        val rankAppAdapter = RankAppAdapter()
+        val appListAdapter = AppListAdapter(this)
         mBinding.recyclerView.layoutManager = LinearLayoutManager(this)
-        mBinding.recyclerView.adapter = rankAppAdapter
+        mBinding.recyclerView.adapter =
+            appListAdapter.withLoadStateFooter(FooterAdapter(appListAdapter, this))
 
         lifecycleScope.launchWhenCreated {
             mViewModel.loadNews().collectLatest {
                 LogUtils.d("receive===$it")
-                rankAppAdapter.submitData(lifecycle, it)
+                appListAdapter.submitData(lifecycle, it)
+                mBinding.swipeRefreshLayout.isEnabled = false
             }
         }
 
+        lifecycleScope.launchWhenCreated {
+            appListAdapter.loadStateFlow.collectLatest { state ->
+                mBinding.swipeRefreshLayout.isRefreshing = state.refresh is LoadState.Loading
+            }
+        }
 
     }
 }

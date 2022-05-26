@@ -6,11 +6,10 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.blankj.utilcode.util.LogUtils
-import com.kotlin.pagingdbnet.api.NetworkService
-import com.kotlin.pagingdbnet.api.RankAppListApi
+import com.kotlin.pagingdbnet.api.AppListApi
 import com.kotlin.pagingdbnet.db.AppListDataBase
 import com.kotlin.pagingdbnet.model.AppData
+import java.lang.IllegalStateException
 
 /**
  *    desc   :
@@ -19,7 +18,7 @@ import com.kotlin.pagingdbnet.model.AppData
 @OptIn(ExperimentalPagingApi::class)
 class AppListRemoteMediator(
     private val database: AppListDataBase,
-    private val rankAppListApi: RankAppListApi
+    private val appListApi: AppListApi
 ) : RemoteMediator<Int, AppData>() {
     override suspend fun load(
         loadType: LoadType,
@@ -51,12 +50,11 @@ class AppListRemoteMediator(
 
             Log.d("AppListRemoteMediator", "loadType===${loadType}==pageSize==$pageSize")
 
-            val response = rankAppListApi.getAppList(page = pageSize)
+            val response = appListApi.getAppList(page = pageSize)
 
-            Log.d("AppListRemoteMediator", "response===${response}")
 
-            if (response.data != null && response.data.isNotEmpty()) {
-                database.withTransaction {
+            database.withTransaction {
+                if (response.data != null && response.data.isNotEmpty()) {
                     for (data in response.data) {
                         data.page = pageSize
                     }
@@ -67,8 +65,7 @@ class AppListRemoteMediator(
                 endOfPaginationReached = response.data.isNullOrEmpty()
             )
         } catch (e: Exception) {
-
-            MediatorResult.Error(e)
+            MediatorResult.Error(IllegalStateException("加载出错"))
         }
     }
 
